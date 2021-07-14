@@ -5,10 +5,17 @@ from selenium import webdriver
 
 class AnimalTestCase(LiveServerTestCase):
     # Inicia o browser
+    # é um navegador real real, ou seja, o Chrome.
+    # O Webdriver ativa uma versão sem comando do Chrome e o conduz para solicitar suas páginas da web.
+    # Eles passam por solicitações HTTP reais e, em seguida, processam a resposta no navegador ;
+    # assim como um navegador real, se o HTML incluir links para JS ou CSS, ele os solicitará e também os renderizará.
     def setUp(self):
-        self.browser = webdriver.Chrome('chromedriver.exe')
+        options = webdriver.ChromeOptions() 
+        options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        self.browser = webdriver.Chrome(options=options , executable_path='chromedriver.exe')
 
     # Fecha o browser
+
     def tearDown(self):
         self.browser.quit()
 
@@ -37,5 +44,5 @@ class AnimalTestCase(LiveServerTestCase):
         # Como seram exibidos + de uma caracteristicas ao inves de utilizar element vai ser utilizado elements
         caracteristicas = self.browser.find_elements_by_css_selector(
             '.result-description')
-        #O comando assertGreater ve se ha mais de 3 caracteristicas , se houver ele roda caso nao ele falha
+        # O comando assertGreater ve se ha mais de 3 caracteristicas , se houver ele roda caso nao ele falha
         self.assertGreater(len(caracteristicas), 3)
